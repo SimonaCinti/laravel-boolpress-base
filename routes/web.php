@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+// HOMEPAGE
+Route::get('/', 'StaticPageController@home')->name('homepage');
+
+// ABOUT 
+Route::get('/about-me', 'StaticPageController@about')->name('about');
+
+// POST RESOURCE PAGES
+Route::resource('posts', 'PostController');
