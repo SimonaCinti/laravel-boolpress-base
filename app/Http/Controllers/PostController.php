@@ -89,9 +89,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($slug)
+    {   
+        $post = Post::where('slug', $slug)->first();
+
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -103,7 +105,36 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Get data from form 
+        $data = $request->all();
+
+        // Validazione dati
+        $request->validate($this->ruleValidation());
+
+        // Get post to update
+
+        $post = Post::find($id);
+
+        // Update Slag
+
+        $post['slug'] = Str::slug($data['title'], '-');
+        
+        // If img changed
+        if (!empty($data['path_img'])){
+            if (!empty($post['path_img'])){
+               Storage::disk('public')->delete($post->path_img); 
+            }
+            $data['path_img'] = Storage::disk('public')->put('images', $data['path_img']);
+        }
+
+        // Update DB
+        $updated = $post->update($data); // <-- Necessita del fillable del model
+
+        if ($updated){
+            return redirect()->route('posts.show', $post->slug);
+        } else {
+            return redirect()->route('homepage');
+        }
     }
 
     /**
