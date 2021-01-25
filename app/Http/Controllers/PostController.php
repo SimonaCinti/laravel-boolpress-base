@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 
 class PostController extends Controller
@@ -37,12 +39,34 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {   
-        //collect data from form
+        //Collect data from form
         $data = $request->all();
-        // dd($data);
+        // dump($data);
+
+        // Validation
         $request->validate($this->ruleValidation());
 
+        // Create post slug
+        $data['slug'] = Str::slug($data['title'], '-');
+        // dd($data);
 
+        // If img !== null, put image on server
+        
+        if(!empty($data['path_img'])){
+            $data['path_img'] = Storage::disk('public')->put('images', $data['path_img'] );
+        }
+
+        // Save to DB
+
+        $newPost = new Post();
+        $newPost->fill($data); //fillable nel Model necessario
+        $saved = $newPost->save();
+
+        if ($saved){
+            return redirect()->route('posts.index');
+        } else {
+            return redirect()->route('homepage');
+        }
     }
 
     /**
