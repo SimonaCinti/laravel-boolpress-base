@@ -51,7 +51,7 @@ class PostController extends Controller
         // dd($data);
 
         // If img !== null, put image on server
-        
+
         if(!empty($data['path_img'])){
             $data['path_img'] = Storage::disk('public')->put('images', $data['path_img'] );
         }
@@ -75,9 +75,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->first();
+
+        return view('posts.show', compact('post'));
+        
     }
 
     /**
