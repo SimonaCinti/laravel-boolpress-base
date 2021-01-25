@@ -40,7 +40,7 @@ class PostController extends Controller
         //collect data from form
         $data = $request->all();
         // dd($data);
-        $request->validate();
+        $request->validate($this->ruleValidation());
 
 
     }
@@ -88,5 +88,17 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     *! FUNCTION VALIDATE RULE
+     */
+
+    private function ruleValidation(){
+        return [
+            'title' => 'required',
+            'body' => 'required',
+            'path_img' => 'image'
+        ];
     }
 }
