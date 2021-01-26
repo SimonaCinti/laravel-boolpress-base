@@ -5,8 +5,15 @@
    <div class="container mb-4">
        <h1>{{ $post->title }}</h1>
         <p> Last Update: {{$post->updated_at->diffForHumans() }}</p>
-        <div class="action mb-5">
+        <div class="action mt-2 mb-5">
+            {{-- Edit button --}}
             <a class="btn btn-secondary" href="{{ route('posts.edit', $post->slug) }}">Edit</a>
+            {{-- Delete button --}}
+            <form class="d-inline" action="{{ route('posts.destroy', $post->id )}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <input class="btn btn-danger" type="submit" value="Delete">
+            </form>
         </div>
 
         @if (!empty($post->path_img))

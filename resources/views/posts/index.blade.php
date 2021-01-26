@@ -2,6 +2,11 @@
 @extends('layouts.main')
 
 @section('content')
+    @if (session('post-deleted'))
+        <div class="alert alert-success">
+            <h3>Post '{{ session('post-deleted') }}' deleted</h3>
+        </div>
+    @endif
    <div class="container mb-4">
        <h1>Blog Archive</h1>
        @forelse ($posts as $post)
