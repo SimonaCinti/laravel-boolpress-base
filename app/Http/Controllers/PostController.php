@@ -156,7 +156,7 @@ class PostController extends Controller
         return [
             'title' => 'required',
             'body' => 'required',
-            'path_img' => 'image'
+            'path_img' => 'mimes:jpeg,bmp,png,jpg'
         ];
     }
 }
