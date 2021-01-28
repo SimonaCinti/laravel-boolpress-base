@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -27,8 +28,11 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('posts.create');
+
+    {   // get all tags
+        $tags = Tag::all();
+
+        return view('posts.create', compact('tags'));
     }
 
     /**
@@ -41,7 +45,7 @@ class PostController extends Controller
     {   
         //Collect data from form
         $data = $request->all();
-        // dump($data);
+        // dd($data);
 
         // Validation
         $request->validate($this->ruleValidation());
@@ -63,6 +67,13 @@ class PostController extends Controller
         $saved = $newPost->save();
 
         if ($saved){
+
+            // Check delle tags per la tabella pivot
+            if(!empty($data['tags'])) {
+
+                $newPost->tags()->attach($data['tags']);
+
+            }
             return redirect()->route('posts.index');
         } else {
             return redirect()->route('homepage');
