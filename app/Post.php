@@ -17,4 +17,13 @@ class Post extends Model
          'slug',
          'path_img'
      ];
+
+     /**
+      * Db Relations
+      */
+
+      // Posts - Tags
+      public function tags(){
+          return $this->belongsToMany('App\Tag');
+      }
 }
