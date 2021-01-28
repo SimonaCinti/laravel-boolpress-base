@@ -16,6 +16,21 @@
             </form>
         </div>
 
+        {{-- 
+            TAGS 
+            --}}
+        
+        <section class="tags">
+            <h4>TAGS</h4>
+            @forelse ($post->tags as $tag)
+                <span class="badge badge-secondary">
+                    {{$tag->name}}
+                </span>
+            @empty
+                <p>No Active Tag for this post</p>
+            @endforelse
+        </section>
+
         @if (!empty($post->path_img))
             <img src="{{ asset('storage/'. $post->path_img)}}" alt="{{$post->title}}">
         @else

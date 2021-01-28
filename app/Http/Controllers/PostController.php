@@ -104,7 +104,9 @@ class PostController extends Controller
     {   
         $post = Post::where('slug', $slug)->first();
 
-        return view('posts.edit', compact('post'));
+        $tags = Tag::all();
+
+        return view('posts.edit', compact('post', 'tags'));
     }
 
     /**
@@ -142,6 +144,15 @@ class PostController extends Controller
         $updated = $post->update($data); // <-- Necessita del fillable del model
 
         if ($updated){
+
+            // Check TAGS
+
+            if (!empty($data['tags'])){
+                $post->tags()->sync($data['tags']);
+            } else {
+                $post->tags()->detach();
+            }
+
             return redirect()->route('posts.show', $post->slug);
         } else {
             return redirect()->route('homepage');
@@ -158,6 +169,7 @@ class PostController extends Controller
     {
         $title = $post->title; // per il with
         $image = $post->path_img; // per cancellare image nel db
+        $post->tags()->detach(); // rimuovi la relazione fra la tabelle many to many
         $deleted = $post->delete();
 
         if ($deleted){
