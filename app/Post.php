@@ -27,6 +27,11 @@ class Post extends Model
       Public function infoPost(){
           return $this->hasone('App\InfoPost');
       }
+    // Posts - Comments| One to Many | 
+
+      Public function comments(){
+          return $this->hasmany('App\Comment');
+      }
 
       // Posts - Tags | Many to Many
       public function tags(){

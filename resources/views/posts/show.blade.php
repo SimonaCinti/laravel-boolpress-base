@@ -43,6 +43,19 @@
        <p class="text mb-5 mt-5">
            {{$post->body}}
        </p>
-
+       {{-- 
+        Comments
+         --}}
+       <h3> Comments </h3>
+       {{-- @dump($post->comments) --}}
+       <ul class="comments">
+           @foreach ($post->comments as $comment)
+               <li class="mb-4">
+                   <div class="date">{{$comment->created_at->diffForHumans()}}</div>
+                   <div class="text">{{$comment->text}}</div>
+                   <h5 class="author">{{$comment->author}}</h5>
+               </li>
+           @endforeach
+       </ul>
    </div>
 @endsection
