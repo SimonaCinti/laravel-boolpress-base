@@ -5,6 +5,9 @@
    <div class="container mb-4">
        <h1>{{ $post->title }}</h1>
         <p> Last Update: {{$post->updated_at->diffForHumans() }}</p>
+        <div class="post-status"> Post Status:
+            <p class="post-status badge badge-danger">{{$post->infoPost->post_status}} </p>
+        </div>  
         <div class="action mt-2 mb-5">
             {{-- Edit button --}}
             <a class="btn btn-secondary" href="{{ route('posts.edit', $post->slug) }}">Edit</a>

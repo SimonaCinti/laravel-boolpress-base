@@ -10,7 +10,7 @@ class Tag extends Model
      * Db Relations
      */
 
-    // Tags - Posts
+    // Tags - Posts | Many to Many
     public function posts()
     {
         return $this->belongsToMany('App\Post');

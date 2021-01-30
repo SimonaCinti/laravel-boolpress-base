@@ -21,7 +21,7 @@ class PostsTableSeeder extends Seeder
          * ? Post::truncate()
          */
 
-        Post::truncate();
+        // Post::truncate();
         
          /**
          * ! Basic way

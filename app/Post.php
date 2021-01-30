@@ -19,10 +19,16 @@ class Post extends Model
      ];
 
      /**
-      * Db Relations
+      * Db RELATIONS
       */
 
-      // Posts - Tags
+      // Posts - Infoposts | One to One | Principale
+
+      Public function infoPost(){
+          return $this->hasone('App\InfoPost');
+      }
+
+      // Posts - Tags | Many to Many
       public function tags(){
           return $this->belongsToMany('App\Tag');
       }
